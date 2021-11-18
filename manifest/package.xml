@@ -15,11 +15,11 @@
      <types>
          <members>*</members>
          <name>CustomObject</name>
-         </types> -->
+         </types> 
      </types>
         <members>Lwctest</members>
         <name>LightningComponentBundle</name>
-    </types>
+    </types> -->
      <version>52.0</version>
  </Package>
 
