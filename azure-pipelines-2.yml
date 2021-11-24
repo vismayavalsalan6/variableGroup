@@ -1,0 +1,48 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  batch: "true"
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - README.md
+      - azure-pipelines.yml
+pr:
+  autoCancel: "true"
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - README.md
+jobs:
+- job: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  steps:
+    - task: UseNode@1
+    - bash: 
+        npm install sfdx-cli --global
+      displayName: Install Salesforce CLI
+    - bash: 
+        sfdx force:auth:jwt:grant --clientid $(salesforceProdClientid) --jwtkeyfile ./buildfiles/server.key --username $(salesforceProdUsername) --instanceurl $(salesforceProdInstanceUrl) -a prod
+      displayName: Authorize salesforce org
+    - bash: 
+        sfdx force:source:convert -r ./force-app -d ./toDeploy
+      displayName: Convert to deploy source
+    - bash: 
+        sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u prod -w 10
+      displayName: Run validation on source code
+    - bash: 
+        sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u prod -w 10
+      displayName: Deploy source code to Production
+    - bash:
+        $commitMessageFull = git log -1 --pretty=%B
+      displayName: Getting the Commit Message
+    - bash:
+        $first, $extended = $commitMessageFull
+      displayName: Getting the 1st string from the commit message
