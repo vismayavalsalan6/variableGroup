@@ -41,8 +41,8 @@ jobs:
         sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u prod -w 10
       displayName: Deploy source code to Production
     - bash:
-        curl -u vismayaletters@gmail.com:5iXND1GjDRmnQi7uxZDh00AE -X POST --data '{"transition":{"id":"31","looped":true}}' -H "Content-Type:application/json" https://vismayaletters.atlassian.net/rest/api/3/issue/VOR-1/transitions
+        curl -u vismayaletters@gmail.com:88R580KBf7FZDVmvjmnn344D -X POST --data '{"transition":{"id":"31","looped":true}}' -H "Content-Type:application/json" https://vismayaletters.atlassian.net/rest/api/3/issue/VOR-1/transitions
       displayName: Change Status to Done
     - bash:
-        curl -u vismayaletters@gmail.com:5iXND1GjDRmnQi7uxZDh00AE -X PUT --data '{"update":{"comment":[{"add":{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"text":"Status Updated to Done","type":"text"}]}]}}} ]} }' -H "Content-Type:application/json" https://vismayaletters.atlassian.net/rest/api/3/issue/VOR-2
+        curl -u vismayaletters@gmail.com:88R580KBf7FZDVmvjmnn344D -X PUT --data '{"update":{"comment":[{"add":{"body":{"type":"doc","version":1,"content":[{"type":"paragraph","content":[{"text":"Status Updated to Done","type":"text"}]}]}}} ]} }' -H "Content-Type:application/json" https://vismayaletters.atlassian.net/rest/api/3/issue/VOR-2
       displayName: Adding a Comment
