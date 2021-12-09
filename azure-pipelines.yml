@@ -25,9 +25,9 @@ variables:
   -group: test-org-vars
 jobs:
 - job: Deploy
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/azure-pipelines'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   steps:
-      - task: UseNode@1
+    - task: UseNode@1
     - bash: 
         npm install sfdx-cli --global
       displayName: Install Salesforce CLI
