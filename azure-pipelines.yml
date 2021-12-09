@@ -3,8 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-variables:
-  -group: test-org-vars
 
 trigger:
   batch: "true"
@@ -23,10 +21,12 @@ pr:
   paths:
     exclude:
       - README.md
+variables:
+  -group: test-org-vars
 jobs:
 - job: Deploy
   steps:
-    - task: UseNode@1
+      - task: UseNode@1
     - bash: 
         npm install sfdx-cli --global
       displayName: Install Salesforce CLI
