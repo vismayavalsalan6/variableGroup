@@ -3,7 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-
 trigger:
   batch: "true"
   branches:
@@ -21,8 +20,6 @@ pr:
   paths:
     exclude:
       - README.md
-variables:
-  -group: test-org-vars
 jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
