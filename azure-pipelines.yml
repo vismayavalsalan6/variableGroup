@@ -4,18 +4,13 @@
 # https://aka.ms/yaml
 
 variables:
-  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
-  branchName: $[ replace(variables['System.PullRequest.TargetBranch'], 'refs/heads/', '') ]
-  ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
-  - group: test-org-vars
-  ${{ if eq(variables['Build.SourceBranchName'], 'uat') }}:
-  - group: lwc-org-vars
+  -group: my-variable-dev
 
 trigger:
   batch: "true"
   branches:
     include:
-      - variables.branchName
+      - master
   paths:
     exclude:
       - README.md
@@ -24,12 +19,13 @@ pr:
   autoCancel: "true"
   branches:
     include:
-      - variables.branchName
+      - master
   paths:
     exclude:
       - README.md
 jobs:
 - job: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   steps:
     - task: UseNode@1
     - bash: 
