@@ -1,0 +1,49 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+variables:
+  ${{ if startsWith(variables['Build.SourceBranch'], 'refs/pull/') }}:
+  branchName: $[ replace(variables['System.PullRequest.TargetBranch'], 'refs/heads/', '') ]
+  ${{ if eq(variables['Build.SourceBranchName'], 'dev') }}:
+  - group: test-org-vars
+  ${{ if eq(variables['Build.SourceBranchName'], 'uat') }}:
+  - group: lwc-org-vars
+
+trigger:
+  batch: "true"
+  branches:
+    include:
+      - variables.branchName
+  paths:
+    exclude:
+      - README.md
+      - azure-pipelines.yml
+pr:
+  autoCancel: "true"
+  branches:
+    include:
+      - variables.branchName
+  paths:
+    exclude:
+      - README.md
+jobs:
+- job: Deploy
+  steps:
+    - task: UseNode@1
+    - bash: 
+        npm install sfdx-cli --global
+      displayName: Install Salesforce CLI
+    - bash: 
+        sfdx force:auth:jwt:grant --clientid $(salesforceProdClientid) --jwtkeyfile ./buildfiles/server.key --username $(salesforceProdUsername) --instanceurl $(salesforceProdInstanceUrl) -a prod
+      displayName: Authorize salesforce org
+    - bash: 
+        sfdx force:source:convert -r ./force-app -d ./toDeploy
+      displayName: Convert to deploy source
+    - bash: 
+        sfdx force:mdapi:deploy -l RunLocalTests -c -d ./toDeploy -u prod -w 10
+      displayName: Run validation on source code
+    - bash: 
+        sfdx force:mdapi:deploy -l RunLocalTests -d ./toDeploy -u prod -w 10
+      displayName: Deploy source code to Production
