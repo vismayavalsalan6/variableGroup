@@ -25,6 +25,7 @@ variables:
   -group: test-org-vars
 jobs:
 - job: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/azure-pipelines'))
   steps:
       - task: UseNode@1
     - bash: 
