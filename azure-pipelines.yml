@@ -24,7 +24,7 @@ jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: lwc-org-vars
+  - group: sfdx-org-int
   - name: userName
     value: $[variables.Username]
   - name: loginUrl
