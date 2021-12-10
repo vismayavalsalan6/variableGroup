@@ -26,7 +26,7 @@ jobs:
   variables:
   - group: test-org-vars
   steps:
-    - script: echo ${variables.salesforceProdUsername}
+    - script: echo $[variables.salesforceProdUsername]
     - task: UseNode@1
     - bash: 
         npm install sfdx-cli --global
