@@ -24,27 +24,14 @@ jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - ${{ if eq(variables['build.SourceBranchName'], 'dev') }}:
-  - group: sfdx-org-dev
-  - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
   - group: sfdx-org-master
-  - name: userName
-    value: $[variables.SalesforceUserName]
-  - name: loginUrl
-    value: $[variables.InstanceUrl]
-  - name: consumerKey
-    value: $[variables.Clientid]
   steps:
-    - script: echo $(userName)
-    - script: echo $(loginUrl)
-    - script: echo $(consumerKey)
-
     - task: UseNode@1
     - bash: 
         npm install sfdx-cli --global
       displayName: Install Salesforce CLI
     - bash: 
-        sfdx force:auth:jwt:grant --clientid $(consumerKey) --jwtkeyfile ./buildfiles/server.key --username $(userName) --instanceurl $(loginUrl) -a prod
+        sfdx force:auth:jwt:grant --clientid $(Clientid) --jwtkeyfile ./buildfiles/server.key --username $(SalesforceUserName) --instanceurl $(InstanceUrl) -a prod
       displayName: Authorize salesforce org
     - bash: 
         sfdx force:source:convert -r ./force-app -d ./toDeploy
