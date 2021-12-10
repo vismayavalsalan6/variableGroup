@@ -24,7 +24,7 @@ jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: test-org-vars
+  - group: lwc-org-vars
   - name: userName
     value: $[variables.salesforceProdUsername]
   - name: loginUrl
