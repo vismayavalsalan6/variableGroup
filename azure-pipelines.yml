@@ -24,7 +24,7 @@ pr:
       - README.md
 jobs:
 - job: Deploy
-  condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/dev')))
+  condition: and(succeeded(),or(eq(variables['Build.SourceBranch'], 'refs/heads/master'),eq(variables['Build.SourceBranch'], 'refs/heads/dev')))
   variables:
   - ${{ if eq(variables['build.SourceBranchName'], 'dev') }}:
     - group: sfdx-org-dev
