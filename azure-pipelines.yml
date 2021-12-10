@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 variables:
-  -group: my-variable-dev
+  -group: test-org-vars
 trigger:
   batch: "true"
   branches:
