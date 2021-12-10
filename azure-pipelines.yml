@@ -3,8 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-variables:
-  -group: test-org-vars
 trigger:
   batch: "true"
   branches:
@@ -31,7 +29,7 @@ jobs:
         npm install sfdx-cli --global
       displayName: Install Salesforce CLI
     - bash: 
-        sfdx force:auth:jwt:grant --clientid '$(salesforceProdClientid)' --jwtkeyfile ./buildfiles/server.key --username '$(salesforceProdUsername)' --instanceurl 'https://login.salesforce.com' -a prod
+        sfdx force:auth:jwt:grant --clientid $(salesforceProdClientid) --jwtkeyfile ./buildfiles/server.key --username $(salesforceProdUsername) --instanceurl $(salesforceProdInstanceUrl) -a prod
       displayName: Authorize salesforce org
     - bash: 
         sfdx force:source:convert -r ./force-app -d ./toDeploy
