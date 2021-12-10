@@ -24,11 +24,10 @@ jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - name: executingBranch
-    value: 'int'
-  - name: pre
-    value: 'sfdx-org-'
-  - group: '$(pre)$(executingBranch)'
+  - ${{ if eq(variables['build.SourceBranchName'], 'dev') }}:
+  - group: sfdx-org-dev
+  - ${{ if eq(variables['build.SourceBranchName'], 'master') }}:
+  - group: sfdx-org-master
   - name: userName
     value: $[variables.SalesforceUserName]
   - name: loginUrl
