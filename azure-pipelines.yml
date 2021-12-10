@@ -24,7 +24,9 @@ jobs:
 - job: Deploy
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   variables:
-  - group: sfdx-org-int
+  - name: executingBranch
+    value: 'int'
+  - group: 'sfdx-org-''$(executingBranch)'
   - name: userName
     value: $[variables.SalesforceUserName]
   - name: loginUrl
