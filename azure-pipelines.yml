@@ -26,11 +26,11 @@ jobs:
   variables:
   - group: lwc-org-vars
   - name: userName
-    value: $[variables.salesforceProdUsername]
+    value: $[variables.Username]
   - name: loginUrl
-    value: $[variables.salesforceProdInstanceUrl]
+    value: $[variables.InstanceUrl]
   - name: consumerKey
-    value: $[variables.salesforceProdClientid]
+    value: $[variables.Clientid]
   steps:
     - script: echo $(userName)
     - script: echo $(loginUrl)
