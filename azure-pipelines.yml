@@ -26,7 +26,7 @@ jobs:
   variables:
   - group: sfdx-org-int
   - name: userName
-    value: $[variables.Username]
+    value: $[variables.userName]
   - name: loginUrl
     value: $[variables.InstanceUrl]
   - name: consumerKey
